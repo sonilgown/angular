@@ -15,6 +15,10 @@ router.get('/start', function(req, res, next) {
   res.render('start.html');
 });
 
+router.get('/sports', function(req,res,next){
+	res.render('sports/app.html');
+});
+
 router.get('/todo', function(req, res, next) {
 	var jsonObj = require("../public/json/todo.json");
 	res.json(jsonObj);
