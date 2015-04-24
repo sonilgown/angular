@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app="txtList">
+  <head>
+    <title>angular</title> 
+    <link href="/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/css/bootstrap-theme.css" rel="stylesheet"/>
+    
+
+    <script src="/scripts/angular.js"></script>
+    <script src="/scripts/angular-sanitize.js"></script>
+    <style>
+     	*{margin:0;padding:0}
+    	li{margin:30px;list-style:none}
+    	li>div{padding:20px;border:2px solid #ddd}
+    </style>
+   
+    <script>
+    	var app = angular.module("txtList",["ngSanitize"]);
+    	
+    	
+    	app.controller("ToDoCtrl", ['$scope', '$sce','$http', function($scope, $sce,$http) {
+    		
+    		$http.get("http://localhost:2403/wysiwyg").success(function(data){
+				$scope.data = data;
+				
+			});
+    			
+            
+             $scope.deliberatelyTrustDangerousSnippet = function(txt) {
+               return $sce.trustAsHtml(txt);
+             };
+           }]);
+    	
+    	
+    	
+    	
+    	
+    	
+    </script>
+  </head>
+  <body ng-controller="ToDoCtrl">
+  	<ul>
+  		<li ng-repeat="item in data | orderBy: '-id'"  >
+  			<div ng-bind-html="deliberatelyTrustDangerousSnippet(item.txt)">
+  			
+  			</div>
+  		</li>
+  	</ul>
+  </body>
+</html>

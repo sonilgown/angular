@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>angular</title> 
+    <link href="/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/css/bootstrap-theme.css" rel="stylesheet"/>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="/scripts/ckeditor/ckeditor.js"></script>
+   
+    <script>
+    	function Focus() {
+	CKEDITOR.instances.editor1.focus();
+}
+
+function onFocus() {
+	document.getElementById( 'eMessage' ).innerHTML = '<b>' + this.name + ' is focused </b>';
+}
+
+function onBlur() {
+	document.getElementById( 'eMessage' ).innerHTML = this.name + ' lost focus';
+}
+
+$(function(){
+	$("#btn_submit").click(function(){
+		
+		var data =  CKEDITOR.instances.txt.getData();
+		console.log(data);
+		$.ajax({
+		method: "POST",
+		  url: "http://localhost:2403/wysiwyg",
+		  data: { txt: data},
+		  success : function(){
+		  	alert("성공!");
+		  }
+	});
+	});
+	
+});
+    </script>
+  </head>
+  <body>
+  	<form id="editform">
+  		<div>
+  		<textarea cols="100" id="txt" name="txt" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+			<script>
+				// Replace the <textarea id="editor1"> with an CKEditor instance.
+				CKEDITOR.replace( 'txt', {
+					 toolbar : 'customToobar'
+				});
+			</script>
+	  	</div>
+	  	<div style="margin-top:30px">
+	  		<input id="btn_submit" type="button" value="전송"/>
+	  	</div>
+  	</form>
+  	
+   	
+  </body>
+</html>
